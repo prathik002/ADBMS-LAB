@@ -1,0 +1,63 @@
+1.7 OPTIMIZING DATABASE:(GROUP BY,AGGREGATE FUNCTIONS)
+
+1. List product name,price except pen on price order.
+mysql> select pname,price from product where pname not in ('pen') order by price;
++--------+-------+
+| pname  | price |
++--------+-------+
+| Pencil | 25.50 |
+| Book   | 51.00 |
++--------+-------+
+2 rows in set (0.02 sec)
+
+
+2. Find minimum,maximum and average price of products.
+mysql> SELECT
+    ->     MIN(price) AS min_price,
+    ->     MAX(price) AS max_price,
+    ->     AVG(price) AS avg_price
+    -> FROM product;
++-----------+-----------+-----------+
+| min_price | max_price | avg_price |
++-----------+-----------+-----------+
+|     10.20 |     51.00 | 28.900000 |
++-----------+-----------+-----------+
+1 row in set (0.01 sec)
+
+
+3. Find number of customers in each city.
+mysql> SELECT city, COUNT(*) AS total_customers
+    -> FROM customer
+    -> GROUP BY city;
++-----------+-----------------+
+| city      | total_customers |
++-----------+-----------------+
+| Kochi     |               1 |
+| Kozhikode |               1 |
+| Ernakulam |               1 |
+| Kottayam  |               1 |
+| Aluva     |               1 |
++-----------+-----------------+
+5 rows in set (0.01 sec)
+
+
+4. Find number of customers in each city,only include city with more than 3 customers.
+mysql> SELECT city, COUNT(*) AS total_customers
+    -> FROM customer
+    -> GROUP BY city having count(*)>3;
+Empty set (0.00 sec)
+
+
+5. Show data as displayed'who,where' eg:'customer live in Ernakulam'.
+mysql> SELECT CONCAT(name, ' lives in ', city) AS details
+    -> FROM customer;
++-----------------------------+
+| details                     |
++-----------------------------+
+| Arya lives in Kochi         |
+| Nandhana lives in Kozhikode |
+| Anu lives in Ernakulam      |
+| Albin lives in Kottayam     |
+| Kichu lives in Aluva        |
++-----------------------------+
+5 rows in set (0.00 sec)

@@ -1,0 +1,56 @@
+1.8 OPTIMIZING DATABASE:(JOINS)
+
+1. List the product name and quantity of invoice items.
+mysql> SELECT p.pname, i.quantity
+    -> FROM product p
+    -> JOIN invoice_item i
+    -> ON p.pid = i.pid;
++-------+----------+
+| pname | quantity |
++-------+----------+
+| Pen   |       20 |
+| Book  |       25 |
++-------+----------+
+2 rows in set (0.00 sec)
+
+
+2. Display invoice details of the transaction dated '2026-03-10'.
+mysql> select * from invoice_master where inv_date = '2026-03-10';
++--------+---------+------------+
+| inv_id | cust_id | inv_date   |
++--------+---------+------------+
+|     10 |     111 | 2026-03-10 |
++--------+---------+------------+
+1 row in set (0.00 sec)
+
+
+3. Display the customer name ,product name,invoice date of purchased item 'pen'.
+mysql> SELECT c.name, p.pname, im.inv_date
+    -> FROM customer c
+    -> JOIN invoice_master im ON c.id = im.cust_id
+    -> JOIN invoice_item ii ON im.inv_id = ii.inv_id
+    -> JOIN product p ON ii.pid = p.pid
+    -> WHERE p.pname = 'Pen';
++------+-------+------------+
+| name | pname | inv_date   |
++------+-------+------------+
+| Arya | Pen   | 2026-03-10 |
++------+-------+------------+
+1 row in set (0.00 sec)
+
+
+4. Display all customer details and invoice details must include customer has not purchased items.
+mysql> SELECT c.*, im.*
+    -> FROM customer c
+    -> LEFT JOIN invoice_master im
+    -> ON c.id = im.cust_id;
++-----+----------+--------------+-----------+------------+--------+---------+------------+
+| id  | name     | address      | city      | ph_no      | inv_id | cust_id | inv_date   |
++-----+----------+--------------+-----------+------------+--------+---------+------------+
+| 111 | Arya     | Yellow Villa | Kochi     | 9999999999 |     10 |     111 | 2026-03-10 |
+| 222 | Nandhana | White Villa  | Kozhikode | 9873210456 |     20 |     222 | 2026-03-09 |
+| 444 | Anu      | White House  | Ernakulam | 9321056789 |   NULL |    NULL | NULL       |
+| 666 | Albin    | Green House  | Kottayam  | 9746150789 |   NULL |    NULL | NULL       |
+| 777 | Kichu    | Blue House   | Aluva     | 9774672100 |   NULL |    NULL | NULL       |
++-----+----------+--------------+-----------+------------+--------+---------+------------+
+5 rows in set (0.00 sec)

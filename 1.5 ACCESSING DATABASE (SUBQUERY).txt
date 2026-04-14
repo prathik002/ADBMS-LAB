@@ -1,0 +1,94 @@
+1.5 ACCESSING DATABASE (SUBQUERY)
+
+1. List the customer names of invoice date of 10th march 2026.
+mysql> select name from customer where id in(select cust_id from invoice_master where inv_date='2026-03-10');
++------+
+| name |
++------+
+| Arya |
++------+
+1 row in set (0.00 sec)
+
+
+2. List the product name and price of each invoice item.
+mysql> select pname,price from product where pid in(select pid from invoice_item);
++-------+-------+
+| pname | price |
++-------+-------+
+| Pen   | 10.20 |
+| Book  | 51.00 |
++-------+-------+
+2 rows in set (0.00 sec)
+
+
+3. List the product names only include their purchased quantity more than 3.
+mysql> select pname from product where pid in(select pid from invoice_item where quantity>3);
++-------+
+| pname |
++-------+
+| Pen   |
+| Book  |
++-------+
+2 rows in set (0.00 sec)
+
+
+4. Find the product that has no sale
+mysql> select pname from product where pid not in(select pid from invoice_item);
++--------+
+| pname  |
++--------+
+| Pencil |
++--------+
+1 row in set (0.00 sec)
+
+
+5. List the customers names who purchased the items 'pen' and 'pencil'.
+mysql> select * from customer where id in(select cust_id from invoice_master where inv_id in(select inv_id from invoice_item where pid in(select pid from product where pname in('pen','pencil'))));
++-----+------+--------------+-------+------------+
+| id  | name | address      | city  | ph_no      |
++-----+------+--------------+-------+------------+
+| 111 | Arya | Yellow Villa | Kochi | 9999999999 |
++-----+------+--------------+-------+------------+
+1 row in set (0.00 sec)
+
+
+6. Display the purchase product details of the customer 'Arya'.
+mysql> SELECT pname, price
+    -> FROM product
+    -> WHERE pid IN (
+    ->     SELECT pid
+    ->     FROM invoice_item
+    ->     WHERE inv_id IN (
+    ->         SELECT inv_id
+    ->         FROM invoice_master
+    ->         WHERE cust_id IN (
+    ->             SELECT id
+    ->             FROM customer
+    ->             WHERE name = 'Arya'
+    ->         )
+    ->     )
+    -> );
++-------+-------+
+| pname | price |
++-------+-------+
+| Pen   | 10.20 |
++-------+-------+
+1 row in set (0.00 sec)
+
+
+7. List the names of all customers who have purchased atleast 2 products make sure that no duplicate name in the result.
+mysql> select name
+    -> from customer
+    -> where id in(
+    ->     select cust_id
+    ->     from invoice_master
+    ->     where inv_id in(
+    ->         select inv_id
+    ->         from invoice_item
+    ->         group by inv_id
+    ->         having count(
+    ->              pid
+    ->             ) >=2
+    ->           )
+    ->     );
+Empty set (0.00 sec)

@@ -1,0 +1,103 @@
+2.1 PL/SQL PROGRAMS-STORED PROCEDURES
+
+1. Create a procedure to display all tables in the invoice database.
+mysql> Delimiter //
+mysql> create procedure display_all_tables()
+    -> begin
+    -> select * from customer;
+    -> select * from product;
+    -> select * from invoice_master;
+    -> select * from invoice_item;
+    -> end//
+Query OK, 0 rows affected (0.00 sec)
+mysql> DELIMITER ;
+mysql> call display_all_tables();
++-----+----------+--------------+-----------+------------+
+| id  | name     | address      | city      | ph_no      |
++-----+----------+--------------+-----------+------------+
+| 111 | Arya     | Yellow Villa | Kochi     | 9999999999 |
+| 222 | Nandhana | White Villa  | Kozhikode | 9873210456 |
+| 444 | Anu      | White House  | Ernakulam | 9321056789 |
+| 666 | Albin    | Green House  | Kottayam  | 9746150789 |
+| 777 | Kichu    | Blue House   | Aluva     | 9774672100 |
++-----+----------+--------------+-----------+------------+
+5 rows in set (0.00 sec)
+
++-----+--------+-------+
+| pid | pname  | price |
++-----+--------+-------+
+|  11 | Pen    | 10.20 |
+|  22 | Book   | 51.00 |
+|  33 | Pencil | 25.50 |
++-----+--------+-------+
+3 rows in set (0.01 sec)
+
++--------+---------+------------+
+| inv_id | cust_id | inv_date   |
++--------+---------+------------+
+|     10 |     111 | 2026-03-10 |
+|     20 |     222 | 2026-03-09 |
++--------+---------+------------+
+2 rows in set (0.01 sec)
+
++--------+------+----------+
+| inv_id | pid  | quantity |
++--------+------+----------+
+|     10 |   11 |       20 |
+|     30 |   22 |       25 |
++--------+------+----------+
+2 rows in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+
+2. Create a procedure  to find greatest of 3 numbers.
+mysql> delimiter //
+mysql> create procedure greatest_num(a int,b int,c int)
+    -> begin
+    -> declare max_num int;
+    -> if a>=b and a>=c then
+    -> set max_num=a;
+    -> elseif b>=a and b>=c then
+    -> set max_num=b;
+    -> else
+    -> set max_num=c;
+    -> end if;
+    -> select max_num as greatest_number;
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call greatest_num(20,43,12);
++-----------------+
+| greatest_number |
++-----------------+
+|              43 |
++-----------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+3. Create a procedure to display invoice details of a particular customer.
+mysql> delimiter //
+mysql> create procedure cust_invoice(cid int)
+    -> begin
+    -> select * from invoice_master where cust_id=cid;
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call cust_invoice(111);
++--------+---------+------------+
+| inv_id | cust_id | inv_date   |
++--------+---------+------------+
+|     10 |     111 | 2026-03-10 |
++--------+---------+------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+ 

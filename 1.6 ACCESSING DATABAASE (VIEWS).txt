@@ -1,0 +1,35 @@
+1.6ACCESSING DATABAASE (VIEWS)
+
+1. Create a view for customers who have purchased products.
+mysql> create view vi as select * from customer where id in(select cust_id from invoice_master);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from vi;
++-----+----------+--------------+-----------+------------+
+| id  | name     | address      | city      | ph_no      |
++-----+----------+--------------+-----------+------------+
+| 111 | Arya     | Yellow Villa | Kochi     | 9999999999 |
+| 222 | Nandhana | White Villa  | Kozhikode | 9873210456 |
++-----+----------+--------------+-----------+------------+
+2 rows in set (0.00 sec)
+
+
+2. Create a view for invoice products(name,inv_id,pid,quantity).
+ mysql> CREATE VIEW v2 AS
+    -> SELECT
+    ->     c.name,
+    ->     im.inv_id,
+    ->     ii.pid,
+    ->     ii.quantity
+    -> FROM customer c
+    -> JOIN invoice_master im ON c.id = im.cust_id
+    -> JOIN invoice_item ii ON im.inv_id = ii.inv_id;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from v2;
++------+--------+------+----------+
+| name | inv_id | pid  | quantity |
++------+--------+------+----------+
+| Arya |     10 |   11 |       20 |
++------+--------+------+----------+
+1 row in set (0.00 sec)
