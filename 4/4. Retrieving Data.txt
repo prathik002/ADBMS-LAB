@@ -1,0 +1,81 @@
+Assignment 4: Retrieving Data
+1. Write a MongoDB query to display the customer documents having city ‘Ernakulam’,’Thiruvananthapuram’.
+Invoice> db.Customer.find({
+|   city: { $in: ["Ernakulam", "Thiruvananthapuram"] }
+| })
+[
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d1'),
+    cid: 1,
+    cname: 'Arun',
+    city: 'Ernakulam',
+    phone: '9876543210',
+    age: 45
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d2'),
+    cid: 2,
+    cname: 'Binu',
+    city: 'Thiruvananthapuram',
+    phone: '9858746231',
+    age: 55
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d6'),
+    cid: 6,
+    cname: 'Arjun',
+    city: 'Thiruvananthapuram',
+    phone: '9988776655',
+    age: 29
+  }
+]
+
+
+
+2. Write a MongoDB query to display all customer documents who have age >50.
+Invoice> db.Customer.find({
+|   age: { $gt: 50 }
+| })
+[
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d2'),
+    cid: 2,
+    cname: 'Binu',
+    city: 'Thiruvananthapuram',
+    phone: '9858746231',
+    age: 55
+  }
+]
+
+
+
+3. Write a MongoDB query to find customer documents who not live in ‘Thiruvananthapuram’.
+Invoice> db.Customer.find({
+|   city: { $ne: "Thiruvananthapuram" }
+| })
+[
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d1'),
+    cid: 1,
+    cname: 'Arun',
+    city: 'Ernakulam',
+    phone: '9876543210',
+    age: 45
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d4'),
+    cid: 4,
+    cname: 'Rahul',
+    city: 'Calicut',
+    phone: '9648323346',
+    age: 35
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d5'),
+    cid: 5,
+    cname: 'Anjali',
+    city: 'Thrissur',
+    phone: '9834276522',
+    age: 32
+  }
+]

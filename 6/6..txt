@@ -1,0 +1,33 @@
+6. 
+1.Write a MongoDB query to create a user “CUSTOMER1” and grant the read role in the INVOICE database
+Invoice> db.createUser({
+|   user: "Customer1",
+|   pwd: "password123",
+|   roles: [{ role: "read", db: "Invoice" }]
+| })
+{ ok: 1 }
+Invoice> db.getUsers()
+{
+  users: [
+    {
+      _id: 'Invoice.Customer1',
+      userId: UUID('59599ab7-7588-4903-9aa8-8dabd3e4a28e'),
+      user: 'Customer1',
+      db: 'Invoice',
+      roles: [ { role: 'read', db: 'Invoice' } ],
+      mechanisms: [ 'SCRAM-SHA-1', 'SCRAM-SHA-256' ]
+    }
+  ],
+  ok: 1
+}
+
+
+
+2. Write a MongoDB query to create the backup for the INVOICE database.
+
+PS C:\Users\Prathik> mongodump --db Invoice --out C:\backup\Invoice_backup
+2026-04-28T11:53:16.809+0530    writing `Invoice.Product` to `C:\backup\Invoice_backup\Invoice\Product.bson`
+2026-04-28T11:53:16.809+0530    writing `Invoice.Customer` to `C:\backup\Invoice_backup\Invoice\Customer.bson`
+2026-04-28T11:53:16.810+0530    done dumping `Invoice.Product` (6 documents)
+2026-04-28T11:53:16.810+0530    done dumping `Invoice.Customer` (5 documents)
+

@@ -1,0 +1,211 @@
+Assignment 3: NoSQL-CRUD
+1. Write a MongoDB query to create an INVOICE database and collections (CUSTOMER, PRODUCT) and its corresponding documents.
+test> use Invoice
+Invoice> db.Customer.insertMany([
+| { cid: 1, cname: "Arun", city: "Ernakulam", phone: "9876543210", age: 45 },
+| { cid: 2, cname: "Binu", city: "Thiruvananthapuram", phone: "9858746231", age: 55 },
+| { cid: 3, cname: "Cyril", city: "Calicut", phone: "9736142531", age: 60 },
+| { cid: 4, cname: "Rahul", city: "Calicut", phone: "9648323346", age: 35 },
+| { cid: 5, cname: "Anjali", city: "Kochi", phone: "9834276522", age: 32 },
+| { cid: 6, cname: "Arjun", city: "Thiruvananthapuram", phone: "9988776655", age:29 }
+| ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69f04139865eaefb5a3682d1'),
+    '1': ObjectId('69f04139865eaefb5a3682d2'),
+    '2': ObjectId('69f04139865eaefb5a3682d3'),
+    '3': ObjectId('69f04139865eaefb5a3682d4'),
+    '4': ObjectId('69f04139865eaefb5a3682d5'),
+    '5': ObjectId('69f04139865eaefb5a3682d6')
+  }
+}
+Invoice> db.Product.insertMany([
+| { pid: 101, pname: "Pen", price: 10, quantity: 30 },
+| { pid: 102, pname: "Book", price: 45, quantity: 20 },
+| { pid: 103, pname: "Headset", price: 799, quantity: 15 },
+| { pid: 104, pname: "Laptop", price: 82000, quantity: 10 },
+| { pid: 105, pname: "Mouse", price: 500, quantity: 30 },
+| { pid: 106, pname: "Keyboard", price: 1500, quantity: 17 }
+| ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69f0436d865eaefb5a3682d7'),
+    '1': ObjectId('69f0436d865eaefb5a3682d8'),
+    '2': ObjectId('69f0436d865eaefb5a3682d9'),
+    '3': ObjectId('69f0436d865eaefb5a3682da'),
+    '4': ObjectId('69f0436d865eaefb5a3682db'),
+    '5': ObjectId('69f0436d865eaefb5a3682dc')
+  }
+}
+
+
+
+2. Write a MongoDB query to find all documents from the collection CUSTOMER
+Invoice> db.Customer.find()
+[
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d1'),
+    cid: 1,
+    cname: 'Arun',
+    city: 'Ernakulam',
+    phone: '9876543210',
+    age: 45
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d2'),
+    cid: 2,
+    cname: 'Binu',
+    city: 'Thiruvananthapuram',
+    phone: '9858746231',
+    age: 55
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d3'),
+    cid: 3,
+    cname: 'Cyril',
+    city: 'Calicut',
+    phone: '9736142531',
+    age: 60
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d4'),
+    cid: 4,
+    cname: 'Rahul',
+    city: 'Calicut',
+    phone: '9648323346',
+    age: 35
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d5'),
+    cid: 5,
+    cname: 'Anjali',
+    city: 'Kochi',
+    phone: '9834276522',
+    age: 32
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d6'),
+    cid: 6,
+    cname: 'Arjun',
+    city: 'Thiruvananthapuram',
+    phone: '9988776655',
+    age: 29
+  }
+]
+
+
+
+3. Write a MongoDB query to update the city in the collection CUSTOMER.
+Invoice> db.Customer.updateOne(
+|  { cname: "Anjali" },
+|  { $set: { city: "Thrissur" } }
+| )
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+Invoice> db.Customer.find()
+[
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d1'),
+    cid: 1,
+    cname: 'Arun',
+    city: 'Ernakulam',
+    phone: '9876543210',
+    age: 45
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d2'),
+    cid: 2,
+    cname: 'Binu',
+    city: 'Thiruvananthapuram',
+    phone: '9858746231',
+    age: 55
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d3'),
+    cid: 3,
+    cname: 'Cyril',
+    city: 'Calicut',
+    phone: '9736142531',
+    age: 60
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d4'),
+    cid: 4,
+    cname: 'Rahul',
+    city: 'Calicut',
+    phone: '9648323346',
+    age: 35
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d5'),
+    cid: 5,
+    cname: 'Anjali',
+    city: 'Thrissur',
+    phone: '9834276522',
+    age: 32
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d6'),
+    cid: 6,
+    cname: 'Arjun',
+    city: 'Thiruvananthapuram',
+    phone: '9988776655',
+    age: 29
+  }
+]
+
+
+
+4. Write a MongoDB query to delete the first matched document whose city is “Calicut”.
+Invoice> db.Customer.deleteOne({ city: "Calicut" })
+{ acknowledged: true, deletedCount: 1 }
+Invoice> db.Customer.find()
+[
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d1'),
+    cid: 1,
+    cname: 'Arun',
+    city: 'Ernakulam',
+    phone: '9876543210',
+    age: 45
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d2'),
+    cid: 2,
+    cname: 'Binu',
+    city: 'Thiruvananthapuram',
+    phone: '9858746231',
+    age: 55
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d4'),
+    cid: 4,
+    cname: 'Rahul',
+    city: 'Calicut',
+    phone: '9648323346',
+    age: 35
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d5'),
+    cid: 5,
+    cname: 'Anjali',
+    city: 'Thrissur',
+    phone: '9834276522',
+    age: 32
+  },
+  {
+    _id: ObjectId('69f04139865eaefb5a3682d6'),
+    cid: 6,
+    cname: 'Arjun',
+    city: 'Thiruvananthapuram',
+    phone: '9988776655',
+    age: 29
+  }
+]
